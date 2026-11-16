@@ -43,30 +43,42 @@
     .field { margin-bottom: 15px; }
     label { display: block; font-size: 13px; font-weight: bold; color: #333; margin-bottom: 6px; }
 
+    /* 작업 영역 선택 버튼 (세로 직사각형 3줄 배치) */
     .area-btn-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
+      gap: 8px;
       margin-top: 8px;
     }
     .area-btn {
-      padding: 8px 4px;
-      border: 1px solid #007bff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 4px;
+      min-height: 76px;
+      border: 1.5px solid #007bff;
       background: #f0f7ff;
       color: #007bff;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: bold;
-      border-radius: 4px;
+      line-height: 1.25;
+      border-radius: 6px;
       cursor: pointer;
       text-align: center;
       transition: all 0.15s ease;
       user-select: none;
     }
+    .area-btn span.mul {
+      font-size: 11px;
+      opacity: 0.85;
+      margin: 1px 0;
+    }
     .area-btn:hover { background: #e0effe; }
     .area-btn.active {
       background: #007bff;
       color: #fff;
-      box-shadow: 0 2px 4px rgba(0,123,255,0.3);
+      box-shadow: 0 2px 5px rgba(0,123,255,0.35);
     }
 
     .orient-btn-grid {
@@ -112,76 +124,121 @@
       background: #fff;
       color: #6f42c1;
     }
-    
-    .height-btn-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 5px;
-      margin-top: 6px;
-    }
-    .height-btn {
-      padding: 6px 2px;
-      border: 1px solid #28a745;
+
+    /* 무대 높이 게이지 슬라이더 영역 */
+    .height-gauge-box {
       background: #f4fcf5;
-      color: #28a745;
-      font-size: 11px;
-      font-weight: bold;
-      border-radius: 4px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.15s ease;
-      user-select: none;
+      border: 1px solid #28a745;
+      border-radius: 6px;
+      padding: 10px 12px;
     }
-    .height-btn:hover { background: #e2f8e5; }
-    .height-btn.active {
+    .height-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .height-header span.title {
+      font-size: 13px;
+      font-weight: bold;
+      color: #1e7e34;
+    }
+    .height-val-badge {
       background: #28a745;
       color: #fff;
-      box-shadow: 0 2px 4px rgba(40,167,69,0.3);
+      font-size: 14px;
+      font-weight: bold;
+      padding: 3px 10px;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    .height-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background: #cce8d1;
+      outline: none;
+      cursor: pointer;
+      margin: 6px 0;
+    }
+    .height-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #28a745;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .height-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.12);
+    }
+    .height-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #28a745;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.35);
+      cursor: pointer;
+    }
+    .gauge-ticks {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: bold;
+      color: #2e7d32;
+      margin-top: 2px;
+      padding: 0 2px;
     }
 
+    /* 브러시 모드 그리드 (4열, 정사각형 형태) */
     .key-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 6px;
       margin-top: 8px;
     }
     .key-btn {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      padding: 6px 8px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      background: #f8f9fa;
-      color: #333;
-      font-size: 12px;
+      justify-content: center;
+      padding: 6px 2px;
+      border-radius: 6px;
+      border: 2px solid transparent;
+      font-size: 11px;
+      font-weight: bold;
       cursor: pointer;
       user-select: none;
       transition: all 0.15s ease;
+      aspect-ratio: 1 / 1;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
-    .key-btn:hover { opacity: 0.85; }
+    .key-btn:hover { opacity: 0.9; transform: translateY(-1px); }
     .key-btn.active {
       border-color: #000;
-      box-shadow: 0 0 0 2px #333;
-      font-weight: bold;
+      box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000;
+      transform: scale(1.03);
     }
     .key-badge {
-      display: inline-block;
-      padding: 2px 5px;
-      border-radius: 3px;
-      background: #333;
-      color: #fff;
       font-family: monospace;
-      font-weight: bold;
-      margin-right: 6px;
-      font-size: 11px;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 3px;
+      background: rgba(0,0,0,0.25);
+      color: #fff;
+      padding: 1px 6px;
+      border-radius: 4px;
     }
-    .color-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 2px;
-      display: inline-block;
-      margin-right: 6px;
-      border: 1px solid rgba(0,0,0,0.2);
+    .key-btn[data-color="yellow"] .key-badge {
+      background: rgba(0,0,0,0.15);
+      color: #000;
     }
 
     .action-btn-group {
@@ -219,10 +276,11 @@
 
     .result { margin-top: 15px; padding-top: 15px; border-top: 2px dashed #eee; }
     .result p { margin: 6px 0; font-size: 13px; }
-    .sub-result { background: #eef5ff; padding: 10px; border-radius: 6px; margin-top: 10px; border: 1px solid #cce5ff; }
+    .sub-result { background: #eef5ff; padding: 10px; border-radius: 6px; margin-top: 12px; border: 1px solid #cce5ff; }
     .sub-result h4 { margin: 0 0 8px 0; color: #004085; font-size: 14px; }
     .warning-text { color: #d9534f; font-weight: bold; font-size: 13px; margin-top: 4px; }
-    .highlight { color: #d9534f; font-weight: bold; font-size: 15px; border-top: 1px solid #eee; padding-top: 8px; margin-top: 8px; }
+    .pin-extra-note { color: #d9534f; font-weight: bold; font-size: 13px; margin-left: 4px; }
+    .highlight { color: #d9534f; font-weight: bold; font-size: 15px; background: #fff5f5; border: 1px solid #f5c6cb; border-radius: 6px; padding: 10px; margin-bottom: 12px; }
     
     .pin-detail { font-size: 13px; color: #222; font-weight: bold; margin-left: 8px; margin-top: 4px; }
     .instructions { font-size: 12px; color: #666; margin-top: 15px; line-height: 1.5; background: #f8f9fa; padding: 10px; border-radius: 4px; }
@@ -238,16 +296,28 @@
   <h3 style="margin-bottom: 12px;">🎭 무대 상판 및 부자재 산출</h3>
   
   <div class="field">
-    <label>작업화면 영역 선택</label>
+    <label>작업 영역</label>
     <div class="area-btn-grid" id="areaGrid">
-      <div class="area-btn active" data-w="29000" data-h="20000" onclick="setCanvasSize(29000, 20000, this)">29m × 20m</div>
-      <div class="area-btn" data-w="40000" data-h="25000" onclick="setCanvasSize(40000, 25000, this)">40m × 25m</div>
-      <div class="area-btn" data-w="49000" data-h="29000" onclick="setCanvasSize(49000, 29000, this)">49m × 29m</div>
+      <div class="area-btn" data-w="29000" data-h="20000" onclick="setCanvasSize(29000, 20000, this)">
+        <span>29m</span>
+        <span class="mul">×</span>
+        <span>20m</span>
+      </div>
+      <div class="area-btn active" data-w="40000" data-h="25000" onclick="setCanvasSize(40000, 25000, this)">
+        <span>40m</span>
+        <span class="mul">×</span>
+        <span>25m</span>
+      </div>
+      <div class="area-btn" data-w="49000" data-h="29000" onclick="setCanvasSize(49000, 29000, this)">
+        <span>49m</span>
+        <span class="mul">×</span>
+        <span>29m</span>
+      </div>
     </div>
   </div>
 
   <div class="field">
-    <label>상판 배치 타일 모드</label>
+    <label>타일 배치 모드</label>
     <div class="orient-btn-grid" id="orientGrid">
       <div class="orient-btn active" data-orient="horizontal" onclick="setOrientationMode('horizontal', this)"><span class="orient-badge">H</span>가로타일</div>
       <div class="orient-btn" data-orient="vertical" onclick="setOrientationMode('vertical', this)"><span class="orient-badge">V</span>세로타일</div>
@@ -255,14 +325,36 @@
   </div>
 
   <div class="field">
-    <label>상판 색상 선택 (드래그 시 선택한 색상으로 자동 규격 배치)</label>
+    <label>브러시 모드</label>
     <div class="key-grid" id="colorGrid">
-      <div class="key-btn active" data-color="orange" onclick="setColor('orange')"><span class="key-badge">1</span><span class="color-dot" style="background:#ff9900;"></span>주황 (기본)</div>
-      <div class="key-btn" data-color="blue" onclick="setColor('blue')"><span class="key-badge">2</span><span class="color-dot" style="background:#007bff;"></span>파랑</div>
-      <div class="key-btn" data-color="yellow" onclick="setColor('yellow')"><span class="key-badge">3</span><span class="color-dot" style="background:#ffc107;"></span>노랑</div>
-      <div class="key-btn" data-color="green" onclick="setColor('green')"><span class="key-badge">4</span><span class="color-dot" style="background:#28a745;"></span>연두</div>
-      <div class="key-btn" data-color="red" onclick="setColor('red')"><span class="key-badge">5</span><span class="color-dot" style="background:#dc3545;"></span>빨강</div>
-      <div class="key-btn" data-color="erase" onclick="setColor('erase')"><span class="key-badge">E</span><span class="color-dot" style="background:#333;"></span>삭제 모드</div>
+      <div class="key-btn active" data-color="orange" onclick="setColor('orange')" style="background:#ff9900; color:#fff;">
+        <span class="key-badge">1</span>
+        <span>상판+프레임</span>
+      </div>
+      <div class="key-btn" data-color="blue" onclick="setColor('blue')" style="background:#007bff; color:#fff;">
+        <span class="key-badge">2</span>
+        <span>상판만</span>
+      </div>
+      <div class="key-btn" data-color="yellow" onclick="setColor('yellow')" style="background:#ffc107; color:#222;">
+        <span class="key-badge">3</span>
+        <span>가로연장</span>
+      </div>
+      <div class="key-btn" data-color="green" onclick="setColor('green')" style="background:#28a745; color:#fff;">
+        <span class="key-badge">4</span>
+        <span>세로연장</span>
+      </div>
+      <div class="key-btn" data-color="red" onclick="setColor('red')" style="background:#dc3545; color:#fff;">
+        <span class="key-badge">5</span>
+        <span>H×1, X×1</span>
+      </div>
+      <div class="key-btn" data-color="stair" onclick="setColor('stair')" style="background:#6f42c1; color:#fff;">
+        <span class="key-badge">S</span>
+        <span>계단</span>
+      </div>
+      <div class="key-btn" data-color="erase" onclick="setColor('erase')" style="background:#444444; color:#fff;">
+        <span class="key-badge">E</span>
+        <span>지우기</span>
+      </div>
     </div>
   </div>
 
@@ -273,28 +365,34 @@
     3. 가로의 마지막이 짝수인 경우 주황색의 옆은 노란색<br>
     4. 세로의 마지막이 짝수인 경우 주황색의 아래는 연두색<br>
     5. 가로와 세로가 모두 짝수인 경우 마지막 칸은 빨간색<br>
-    <span class="note">※ '자동변경'은 직사각일 때만 정상적용됨.(기타 형태는 수동변경 필요!)</span>
+    <span class="note">※ 계단(S)은 자동변경 적용 제외됨!</span>
   </div>
 
   <div class="action-btn-group">
-    <button class="btn-clear" onclick="clearAll()">전체 해제 (Ctrl+E)</button>
-    <button class="btn-auto" id="btnAutoChange" onclick="applyAutoPattern()" disabled title="규격 충족 시 활성화">자동 변경 (T)</button>
+    <button class="btn-auto" id="btnAutoChange" onclick="applyAutoPattern()" disabled title="배치 영역 존재 시 활성화">자동 변경 (T)</button>
     <button class="btn-undo" onclick="undo()">실행 취소 (Ctrl+Z)</button>
+    <button class="btn-clear" onclick="clearAll()">전체 해제 (Ctrl+E)</button>
   </div>
 
   <div class="result">
     <div class="field" style="margin-bottom: 12px;">
-      <label>무대 높이 선택</label>
-      <div class="height-btn-grid" id="heightGrid">
-        <div class="height-btn active" data-hval="600" onclick="setStageHeight(600, this)">600~</div>
-        <div class="height-btn" data-hval="700" onclick="setStageHeight(700, this)">700~</div>
-        <div class="height-btn" data-hval="900" onclick="setStageHeight(900, this)">900~</div>
-        <div class="height-btn" data-hval="1000" onclick="setStageHeight(1000, this)">1000~</div>
-        <div class="height-btn" data-hval="1200" onclick="setStageHeight(1200, this)">1200~</div>
-        <div class="height-btn" data-hval="1500" onclick="setStageHeight(1500, this)">1500~</div>
-        <div class="height-btn" data-hval="1800" onclick="setStageHeight(1800, this)">1800~</div>
+      <div class="height-gauge-box">
+        <div class="height-header">
+          <span class="title">📏 무대 높이</span>
+          <span class="height-val-badge" id="heightDisplayText">1000 mm</span>
+        </div>
+        <input type="range" id="heightSlider" class="height-slider" min="1" max="20" step="1" value="10" oninput="onHeightGaugeChange(this.value)">
+        <div class="gauge-ticks">
+          <span>100</span>
+          <span>500</span>
+          <span>1000</span>
+          <span>1500</span>
+          <span>2000</span>
+        </div>
       </div>
     </div>
+
+    <div class="highlight">총 필요 상판 수량: <br><span id="boardCount" style="font-size:18px;">0 장</span></div>
 
     <p>전체 바운딩 범위: <b id="boundsText">0 x 0 mm</b></p>
     <p>외곽선 총 둘레: <b id="perimeterText">0 mm</b></p>
@@ -307,23 +405,23 @@
       <p>• <b>H프레임</b>: <b id="hFrameText">0 개</b></p>
       <p>• <b>X바</b>: <b id="xBarText">0 개</b></p>
       <div id="xBarWarning" class="warning-text"></div>
-      <p>• <b>핀 (총합)</b>: <b id="totalPinText">0 개</b></p>
+      <p>• <b>핀 (총합)</b>: <b id="totalPinText">0 개</b><span id="pinExtraNote" class="pin-extra-note"></span></p>
       <p class="pin-detail">
         - 1핀: <span id="pin1Text" style="font-size:14px; color:#0056b3;">0</span>개 | 
         2핀: <span id="pin2Text" style="font-size:14px; color:#0056b3;">0</span>개<br>
         - 3핀: <span id="pin3Text" style="font-size:14px; color:#0056b3;">0</span>개 | 
         4핀: <span id="pin4Text" style="font-size:14px; color:#0056b3;">0</span>개
       </p>
+      <p>• <b>계단</b>:</p>
+      <div id="stairDetail" class="pin-detail">0 개</div>
     </div>
-
-    <p class="highlight">총 필요 상판 기준: <br><span id="boardCount" style="font-size:18px;">0 장</span></p>
   </div>
 
   <div class="instructions">
     <b>💡 조작 안내</b><br>
     • <b>모바일 터치</b>: 한 손가락(영역 지정), 두 손가락(이동 및 줌)<br>
     • <b>PC 조작</b>: 마우스 휠(확대/축소), Space+드래그(이동), T(자동 변경)<br>
-    • <b>타일 모드 전환</b>: H(가로타일), V(세로타일)
+    • <b>타일 모드 전환</b>: H(가로), V(세로), S(계단)
   </div>
 </div>
 
@@ -333,21 +431,21 @@
   const ctx = canvas.getContext('2d');
 
   const MODULE_MM = 910;
-  let stageWidthMm = 29000;
-  let stageHeightMm = 20000;
+  let stageWidthMm = 40000;
+  let stageHeightMm = 25000;
 
   let COLS = Math.ceil(stageWidthMm / MODULE_MM);
   let ROWS = Math.ceil(stageHeightMm / MODULE_MM);
 
   let grid = Array.from({ length: COLS }, () => Array(ROWS).fill(null));
 
-  let selectedHeightVal = 600;
-  let orientationMode = 'horizontal'; // 'horizontal' (가로타일), 'vertical' (세로타일)
+  let selectedHeightVal = 1000;
+  let orientationMode = 'horizontal'; 
   let scale = 0.25;
   let offsetX = 40;
   let offsetY = 40;
 
-  let currentColor = 'orange';
+  let currentColor = 'orange'; 
   let isPointerDown = false;
   let isRightClick = false;
   let isPanning = false;
@@ -368,7 +466,8 @@
     blue:   { fill: 'rgba(0, 123, 255, 0.85)', stroke: '#003d80' },
     yellow: { fill: 'rgba(255, 193, 7, 0.85)',  stroke: '#b78103' },
     green:  { fill: 'rgba(40, 167, 69, 0.85)',  stroke: '#1e7e34' },
-    red:    { fill: 'rgba(220, 53, 69, 0.85)',  stroke: '#84121d' }
+    red:    { fill: 'rgba(220, 53, 69, 0.85)',  stroke: '#84121d' },
+    stair:  { fill: 'rgba(111, 66, 193, 0.85)', stroke: '#4b287a' }
   };
 
   function resizeCanvas() {
@@ -380,10 +479,11 @@
   }
   window.addEventListener('resize', resizeCanvas);
 
-  function setStageHeight(hVal, btnEl) {
-    selectedHeightVal = hVal;
-    document.querySelectorAll('#heightGrid .height-btn').forEach(btn => btn.classList.remove('active'));
-    if (btnEl) btnEl.classList.add('active');
+  // 게이지 슬라이더 값(1 ~ 20) 변경 핸들러
+  function onHeightGaugeChange(stepVal) {
+    const numStep = Number(stepVal);
+    selectedHeightVal = numStep * 100;
+    document.getElementById('heightDisplayText').innerText = `${selectedHeightVal} mm`;
     render();
   }
 
@@ -396,6 +496,17 @@
       const target = document.querySelector(`.orient-btn[data-orient="${mode}"]`);
       if (target) target.classList.add('active');
     }
+
+    if (currentColor === 'erase' || currentColor === 'stair') {
+      setColor('orange');
+    }
+  }
+
+  function setColor(color) {
+    currentColor = color;
+    document.querySelectorAll('#colorGrid .key-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.color === color);
+    });
   }
 
   function setCanvasSize(widthMm, heightMm, btnEl) {
@@ -403,7 +514,7 @@
 
     let hasData = grid.some(row => row.some(cell => cell !== null));
     if (hasData) {
-      if (!confirm('작업화면 크기를 변경하면 기존에 배치된 상판이 초기화됩니다. 변경하시겠습니까?')) {
+      if (!confirm('작업 영역 크기를 변경하면 기존에 배치된 상판이 초기화됩니다. 변경하시겠습니까?')) {
         return;
       }
     }
@@ -432,13 +543,6 @@
       grid = JSON.parse(historyStack.pop());
       render();
     }
-  }
-
-  function setColor(color) {
-    currentColor = color;
-    document.querySelectorAll('#colorGrid .key-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.color === color);
-    });
   }
 
   canvas.addEventListener('contextmenu', e => e.preventDefault());
@@ -474,6 +578,7 @@
     if (key === '3') setColor('yellow');
     if (key === '4') setColor('green');
     if (key === '5') setColor('red');
+    if (key === 's') setColor('stair');
     if (key === 'e') setColor('erase');
   });
 
@@ -653,8 +758,25 @@
       return;
     }
 
+    if (currentColor === 'stair') {
+      const wCols = maxC - minC + 1;
+      const hRows = maxR - minR + 1;
+
+      if (wCols >= hRows) {
+        const r = minR;
+        for (let c = minC; c <= maxC; c++) {
+          grid[c][r] = { dir: 'STAIR', colorKey: 'stair' };
+        }
+      } else {
+        const c = minC;
+        for (let r = minR; r <= maxR; r++) {
+          grid[c][r] = { dir: 'STAIR', colorKey: 'stair' };
+        }
+      }
+      return;
+    }
+
     if (orientationMode === 'horizontal') {
-      // 가로타일 (1820*910)
       let c = minC;
       while (c <= maxC) {
         let r = minR;
@@ -685,8 +807,7 @@
           c += 1;
         }
       }
-    } else {
-      // 세로타일 (910*1820)
+    } else if (orientationMode === 'vertical') {
       let r = minR;
       while (r <= maxR) {
         let c = minC;
@@ -728,9 +849,6 @@
     }
   }
 
-  /* -------------------------------------------------------------
-     독립적으로 떨어진 무대 영역들(연결 컴포넌트)을 탐지하는 함수
-  ------------------------------------------------------------- */
   function findConnectedRegions() {
     let visited = Array.from({ length: COLS }, () => Array(ROWS).fill(false));
     let regions = [];
@@ -738,6 +856,7 @@
     for (let c = 0; c < COLS; c++) {
       for (let r = 0; r < ROWS; r++) {
         if (grid[c][r] !== null && !visited[c][r]) {
+          const isStairRegion = (grid[c][r].dir === 'STAIR');
           let minC = c, maxC = c, minR = r, maxR = r;
           let queue = [{ c, r }];
           visited[c][r] = true;
@@ -759,35 +878,38 @@
             neighbors.forEach(n => {
               if (n.c >= 0 && n.c < COLS && n.r >= 0 && n.r < ROWS) {
                 if (grid[n.c][n.r] !== null && !visited[n.c][n.r]) {
-                  visited[n.c][n.r] = true;
-                  queue.push(n);
+                  const neighborIsStair = (grid[n.c][n.r].dir === 'STAIR');
+                  if (isStairRegion === neighborIsStair) {
+                    visited[n.c][n.r] = true;
+                    queue.push(n);
+                  }
                 }
               }
             });
           }
 
-          let hCount = 0;
-          let vCount = 0;
-          for (let col = minC; col <= maxC; col++) {
-            for (let row = minR; row <= maxR; row++) {
-              if (grid[col][row] !== null) {
-                if (grid[col][row].dir === 'H') hCount++;
-                else if (grid[col][row].dir === 'V') vCount++;
+          if (isStairRegion) {
+            regions.push({ minC, maxC, minR, maxR, type: 'stair' });
+          } else {
+            let hCount = 0;
+            let vCount = 0;
+            for (let col = minC; col <= maxC; col++) {
+              for (let row = minR; row <= maxR; row++) {
+                if (grid[col][row] !== null && grid[col][row].dir !== 'STAIR') {
+                  if (grid[col][row].dir === 'H') hCount++;
+                  else if (grid[col][row].dir === 'V') vCount++;
+                }
               }
             }
+            let type = (vCount > hCount) ? 'vertical' : 'horizontal';
+            regions.push({ minC, maxC, minR, maxR, type });
           }
-          const isVerticalRegion = vCount > hCount;
-
-          regions.push({ minC, maxC, minR, maxR, type: isVerticalRegion ? 'vertical' : 'horizontal' });
         }
       }
     }
     return regions;
   }
 
-  /* -------------------------------------------------------------
-     자동 변경 함수 (영역별 기존 타일 형태 감지 후 가로/세로 규칙 개별 적용)
-  ------------------------------------------------------------- */
   function applyAutoPattern() {
     const regions = findConnectedRegions();
     if (regions.length === 0) return;
@@ -796,13 +918,12 @@
 
     regions.forEach(reg => {
       const { minC, maxC, minR, maxR, type } = reg;
+      if (type === 'stair') return; 
+
       const totalCols = (maxC - minC + 1);
       const totalRows = (maxR - minR + 1);
 
       if (type === 'horizontal') {
-        // 가로타일 영역 규칙 적용
-        if (totalCols < 4 || totalRows < 2) return;
-
         if (!modified) { saveState(); modified = true; }
 
         const blockCols = Math.ceil(totalCols / 2); 
@@ -829,14 +950,15 @@
             if (isRowEven && isLastRowBlock && isOddColBlock) colorToApply = 'green';
             if (isColEven && isRowEven && isLastColBlock && isLastRowBlock) colorToApply = 'red';
 
-            if (c1 <= maxC && grid[c1][r] !== null) grid[c1][r] = { dir: 'H', colorKey: colorToApply };
-            if (c2 <= maxC && grid[c2][r] !== null) grid[c2][r] = { dir: 'H', colorKey: colorToApply };
+            if (c1 <= maxC && grid[c1][r] !== null && grid[c1][r].dir !== 'STAIR') {
+              grid[c1][r] = { dir: grid[c1][r].dir, colorKey: colorToApply };
+            }
+            if (c2 <= maxC && grid[c2][r] !== null && grid[c2][r].dir !== 'STAIR') {
+              grid[c2][r] = { dir: grid[c2][r].dir, colorKey: colorToApply };
+            }
           }
         }
-      } else {
-        // 세로타일 영역 규칙 적용
-        if (totalCols < 2 || totalRows < 4) return;
-
+      } else if (type === 'vertical') {
         if (!modified) { saveState(); modified = true; }
 
         const blockCols = totalCols;                
@@ -858,14 +980,17 @@
 
             let colorToApply = 'blue';
 
-            // 세로타일 규칙 (가로열이 짝수개/세로행이 짝수개일 때의 규칙 반영)
             if (isOddColBlock && isOddRowBlock) colorToApply = 'orange';
             if (isRowEven && isLastRowBlock && isOddColBlock) colorToApply = 'yellow';
             if (isColEven && isLastColBlock && isOddRowBlock) colorToApply = 'green';
             if (isColEven && isRowEven && isLastColBlock && isLastRowBlock) colorToApply = 'red';
 
-            if (r1 <= maxR && grid[c][r1] !== null) grid[c][r1] = { dir: 'V', colorKey: colorToApply };
-            if (r2 <= maxR && grid[c][r2] !== null) grid[c][r2] = { dir: 'V', colorKey: colorToApply };
+            if (r1 <= maxR && grid[c][r1] !== null && grid[c][r1].dir !== 'STAIR') {
+              grid[c][r1] = { dir: grid[c][r1].dir, colorKey: colorToApply };
+            }
+            if (r2 <= maxR && grid[c][r2] !== null && grid[c][r2].dir !== 'STAIR') {
+              grid[c][r2] = { dir: grid[c][r2].dir, colorKey: colorToApply };
+            }
           }
         }
       }
@@ -920,10 +1045,11 @@
 
     let processed = Array.from({ length: COLS }, () => Array(ROWS).fill(false));
     let boards = [];
+    let stairUnits = [];
     let fullBoardCount = 0;
     let halfBoardCount = 0;
 
-    let colorCounts = { orange: 0, blue: 0, yellow: 0, green: 0, red: 0 };
+    let colorCounts = { orange: 0, blue: 0, yellow: 0, green: 0, red: 0, stair: 0 };
 
     for (let c = 0; c < COLS; c++) {
       for (let r = 0; r < ROWS; r++) {
@@ -931,7 +1057,13 @@
         if (cell && !processed[c][r]) {
           const colorKey = cell.colorKey;
 
-          if (cell.dir === 'H' && c + 1 < COLS) {
+          if (cell.dir === 'STAIR') {
+            drawStairCell(c, r, cellPx);
+            processed[c][r] = true;
+            colorCounts.stair = (colorCounts.stair || 0) + 1;
+            stairUnits.push({ c, r });
+          }
+          else if (cell.dir === 'H' && c + 1 < COLS) {
             drawBoard(c, r, 2, 1, colorKey, cellPx);
             processed[c][r] = true;
             processed[c + 1][r] = true;
@@ -958,25 +1090,70 @@
       }
     }
 
+    // 드래그 중 선택 영역 박스 및 실시간 가로/세로 길이(mm) 표시
     if (isPointerDown && currentDragBox) {
       const { minC, maxC, minR, maxR } = currentDragBox;
-      const x = minC * cellPx;
-      const y = minR * cellPx;
-      const w = (maxC - minC + 1) * cellPx;
-      const h = (maxR - minR + 1) * cellPx;
+      let colsCount = maxC - minC + 1;
+      let rowsCount = maxR - minR + 1;
 
-      ctx.fillStyle = (isRightClick || currentColor === 'erase') ? 'rgba(220, 53, 69, 0.3)' : 'rgba(40, 167, 69, 0.3)';
+      let drawMinC = minC, drawMinR = minR;
+      if (!isRightClick && currentColor === 'stair') {
+        if (colsCount >= rowsCount) {
+          rowsCount = 1;
+        } else {
+          colsCount = 1;
+        }
+      }
+
+      const x = drawMinC * cellPx;
+      const y = drawMinR * cellPx;
+      const w = colsCount * cellPx;
+      const h = rowsCount * cellPx;
+
+      const isErasing = (isRightClick || currentColor === 'erase');
+      ctx.fillStyle = isErasing ? 'rgba(220, 53, 69, 0.3)' : 'rgba(40, 167, 69, 0.3)';
       ctx.fillRect(x, y, w, h);
-      ctx.strokeStyle = (isRightClick || currentColor === 'erase') ? '#dc3545' : '#28a745';
+      ctx.strokeStyle = isErasing ? '#dc3545' : '#28a745';
       ctx.lineWidth = 3 / scale;
       ctx.strokeRect(x, y, w, h);
+
+      const widthMm = colsCount * MODULE_MM;
+      const heightMm = rowsCount * MODULE_MM;
+      const fontSize = Math.max(12, Math.round(14 / scale));
+      ctx.font = `bold ${fontSize}px sans-serif`;
+
+      const widthLabel = `${widthMm.toLocaleString()}mm`;
+      const heightLabel = `${heightMm.toLocaleString()}mm`;
+
+      // 가로 길이 (선택 박스 상단 중앙)
+      const wTextWidth = ctx.measureText(widthLabel).width;
+      const pad = 4 / scale;
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.78)';
+      ctx.fillRect(x + w / 2 - wTextWidth / 2 - pad, y - fontSize - pad * 2.5, wTextWidth + pad * 2, fontSize + pad * 1.5);
+      ctx.fillStyle = '#ffeb3b';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText(widthLabel, x + w / 2, y - pad * 1.2);
+
+      // 세로 길이 (선택 박스 좌측 중앙, 세로 회전)
+      ctx.save();
+      ctx.translate(x - pad * 1.5, y + h / 2);
+      ctx.rotate(-Math.PI / 2);
+      const hTextWidth = ctx.measureText(heightLabel).width;
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.78)';
+      ctx.fillRect(-hTextWidth / 2 - pad, -fontSize - pad, hTextWidth + pad * 2, fontSize + pad * 1.5);
+      ctx.fillStyle = '#ffeb3b';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText(heightLabel, 0, 0);
+      ctx.restore();
     }
 
     ctx.strokeStyle = '#555';
     ctx.lineWidth = 2 / scale;
     ctx.strokeRect(0, 0, COLS * cellPx, ROWS * cellPx);
 
-    calculateAllMetrics(cellPx, fullBoardCount, halfBoardCount, boards, colorCounts);
+    calculateAllMetrics(cellPx, fullBoardCount, halfBoardCount, boards, stairUnits, colorCounts);
 
     ctx.restore();
   }
@@ -1015,7 +1192,63 @@
     }
   }
 
-  function calculateAllMetrics(cellPx, fullBoardCount, halfBoardCount, boards, colorCounts) {
+  function drawStairCell(col, row, cellPx) {
+    const x = col * cellPx;
+    const y = row * cellPx;
+    const style = colorStyles.stair;
+
+    ctx.fillStyle = style.fill;
+    ctx.fillRect(x, y, cellPx, cellPx);
+    ctx.strokeStyle = style.stroke;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x + 1, y + 1, cellPx - 2, cellPx - 2);
+
+    let targetDir = 'up';
+    const neighbors = [
+      { c: col, r: row - 1, dir: 'up' },
+      { c: col, r: row + 1, dir: 'down' },
+      { c: col - 1, r: row, dir: 'left' },
+      { c: col + 1, r: row, dir: 'right' }
+    ];
+
+    for (let n of neighbors) {
+      if (n.c >= 0 && n.c < COLS && n.r >= 0 && n.r < ROWS) {
+        let neighborCell = grid[n.c][n.r];
+        if (neighborCell !== null && neighborCell.dir !== 'STAIR') {
+          targetDir = n.dir;
+          break;
+        }
+      }
+    }
+
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    const cx = x + cellPx / 2;
+    const cy = y + cellPx / 2;
+    const sz = cellPx * 0.33; 
+
+    if (targetDir === 'up') {
+      ctx.moveTo(cx, cy - sz);
+      ctx.lineTo(cx - sz, cy + sz);
+      ctx.lineTo(cx + sz, cy + sz);
+    } else if (targetDir === 'down') {
+      ctx.moveTo(cx, cy + sz);
+      ctx.lineTo(cx - sz, cy - sz);
+      ctx.lineTo(cx + sz, cy - sz);
+    } else if (targetDir === 'left') {
+      ctx.moveTo(cx - sz, cy);
+      ctx.lineTo(cx + sz, cy - sz);
+      ctx.lineTo(cx + sz, cy + sz);
+    } else if (targetDir === 'right') {
+      ctx.moveTo(cx + sz, cy);
+      ctx.lineTo(cx - sz, cy - sz);
+      ctx.lineTo(cx - sz, cy + sz);
+    }
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function calculateAllMetrics(cellPx, fullBoardCount, halfBoardCount, boards, stairUnits, colorCounts) {
     let count = 0;
     let minC = COLS, maxC = -1, minR = ROWS, maxR = -1;
 
@@ -1044,10 +1277,12 @@
       document.getElementById('xBarText').innerText = `0 개`;
       document.getElementById('xBarWarning').innerText = '';
       document.getElementById('totalPinText').innerText = `0 개`;
+      document.getElementById('pinExtraNote').innerText = '';
       document.getElementById('pin1Text').innerText = 0;
       document.getElementById('pin2Text').innerText = 0;
       document.getElementById('pin3Text').innerText = 0;
       document.getElementById('pin4Text').innerText = 0;
+      document.getElementById('stairDetail').innerHTML = '0 개';
 
       if (autoBtn) autoBtn.disabled = true;
       return;
@@ -1059,11 +1294,7 @@
 
     if (autoBtn) {
       const regions = findConnectedRegions();
-      const hasValidRegion = regions.some(r => {
-        const w = (r.maxC - r.minC + 1);
-        const h = (r.maxR - r.minR + 1);
-        return r.type === 'horizontal' ? (w >= 4 && h >= 2) : (w >= 2 && h >= 4);
-      });
+      const hasValidRegion = regions.some(r => r.type !== 'stair');
       autoBtn.disabled = !hasValidRegion;
     }
 
@@ -1082,46 +1313,81 @@
       document.getElementById('boardCount').innerText = `${fullBoardCount} 장`;
     }
 
-    calculateHardware(minC, maxC, minR, maxR, boards, colorCounts);
+    calculateHardware(minC, maxC, minR, maxR, boards, stairUnits, colorCounts);
   }
 
-  function calculateHardware(minC, maxC, minR, maxR, boards, colorCounts) {
+  function calculateHardware(minC, maxC, minR, maxR, boards, stairUnits, colorCounts) {
     const orange = colorCounts.orange || 0;
     const yellow = colorCounts.yellow || 0;
     const green = colorCounts.green || 0;
     const red = colorCounts.red || 0;
 
-    const hFrameCount = (orange * 2) + yellow + (green * 2) + red;
-    const xBarCount = (orange * 2) + (yellow * 2) + green + red;
+    const rawHFrameCount = (orange * 2) + yellow + (green * 2) + red;
+    const rawXBarCount = (orange * 2) + (yellow * 2) + green + red;
 
-    let hFrameTextStr = `${hFrameCount} 개`;
-    if (hFrameCount > 0) {
-      let hLabel = "480h";
-      if (selectedHeightVal === 700) hLabel = "680h";
-      else if (selectedHeightVal === 900) hLabel = "800h";
-      else if (selectedHeightVal === 1000) hLabel = "870h";
-      else if (selectedHeightVal === 1200) hLabel = "1100h";
-      else if (selectedHeightVal === 1500) hLabel = "1390h";
-      else if (selectedHeightVal === 1800) hLabel = "1700h";
-      hFrameTextStr = `${hFrameCount} 개 (${hLabel})`;
-    }
+    let hFrameTextStr = '0 개';
+    let xBarTextStr = '0 개';
 
-    let xBarTextStr = `${xBarCount} 개`;
-    if (xBarCount > 0) {
-      let xLabel = "short";
-      if (selectedHeightVal >= 900 && selectedHeightVal <= 1500) {
-        xLabel = "middle";
-      } else if (selectedHeightVal >= 1800) {
-        xLabel = "long";
+    // 높이 600 이상일 때만 H프레임 및 X바 규격·수량 산출
+    if (selectedHeightVal >= 600) {
+      if (rawHFrameCount > 0) {
+        let hLabel = "480h";
+        if (selectedHeightVal === 600 || selectedHeightVal === 700) {
+          hLabel = "480h";
+        } else if (selectedHeightVal === 800) {
+          hLabel = "680h";
+        } else if (selectedHeightVal === 900) {
+          hLabel = "800h";
+        } else if (selectedHeightVal === 1000 || selectedHeightVal === 1100) {
+          hLabel = "870h";
+        } else if (selectedHeightVal === 1200 || selectedHeightVal === 1300 || selectedHeightVal === 1400) {
+          hLabel = "1100h";
+        } else if (selectedHeightVal === 1500 || selectedHeightVal === 1600 || selectedHeightVal === 1700) {
+          hLabel = "1390h";
+        } else if (selectedHeightVal >= 1800) {
+          hLabel = "1700h";
+        }
+        hFrameTextStr = `${rawHFrameCount} 개 (${hLabel})`;
       }
-      xBarTextStr = `${xBarCount} 개 (${xLabel})`;
+
+      if (rawXBarCount > 0) {
+        let xLabel = "short";
+        if (selectedHeightVal >= 900 && selectedHeightVal <= 1700) {
+          xLabel = "middle";
+        } else if (selectedHeightVal >= 1800) {
+          xLabel = "long";
+        }
+        xBarTextStr = `${rawXBarCount} 개 (${xLabel})`;
+      }
     }
 
     document.getElementById('hFrameText').innerText = hFrameTextStr;
     document.getElementById('xBarText').innerText = xBarTextStr;
 
+    // 계단 부자재 산출: 단수 * 200 < 무대높이 이면서 무대높이 - (단수 * 200) <= 200
+    if (stairUnits.length > 0) {
+      let stairRegions = findConnectedStairRegions(stairUnits);
+      let tiers = Math.max(0, Math.ceil(selectedHeightVal / 200) - 1);
+      let specCounts = {};
+
+      stairRegions.forEach(sr => {
+        let widthCells = Math.max(sr.maxC - sr.minC + 1, sr.maxR - sr.minR + 1);
+        let widthMm = widthCells * MODULE_MM;
+        let key = `${widthMm.toLocaleString()}폭 ${tiers}단 계단`;
+        specCounts[key] = (specCounts[key] || 0) + 1;
+      });
+
+      let lines = [];
+      for (let spec in specCounts) {
+        lines.push(`• ${spec} ×${specCounts[spec]}`);
+      }
+      document.getElementById('stairDetail').innerHTML = lines.join('<br>');
+    } else {
+      document.getElementById('stairDetail').innerHTML = '0 개';
+    }
+
     const warningEl = document.getElementById('xBarWarning');
-    if (red > 0) {
+    if (red > 0 && selectedHeightVal >= 600) {
       warningEl.innerText = '⚠️ 910 X바 확인';
     } else {
       warningEl.innerText = '';
@@ -1145,10 +1411,10 @@
           if (isCorner) touchingBoards.push(b);
         });
 
-        const topLeft     = (c > minC && r > minR) ? (grid[c - 1][r - 1] !== null) : false;
-        const topRight    = (c <= maxC && r > minR) ? (grid[c][r - 1] !== null) : false;
-        const bottomLeft  = (c > minC && r <= maxR) ? (grid[c - 1][r] !== null) : false;
-        const bottomRight = (c <= maxC && r <= maxR) ? (grid[c][r] !== null) : false;
+        const topLeft     = (c > minC && r > minR) ? (grid[c - 1][r - 1] !== null && grid[c - 1][r - 1].dir !== 'STAIR') : false;
+        const topRight    = (c <= maxC && r > minR) ? (grid[c][r - 1] !== null && grid[c][r - 1].dir !== 'STAIR') : false;
+        const bottomLeft  = (c > minC && r <= maxR) ? (grid[c - 1][r] !== null && grid[c - 1][r].dir !== 'STAIR') : false;
+        const bottomRight = (c <= maxC && r <= maxR) ? (grid[c][r] !== null && grid[c][r].dir !== 'STAIR') : false;
 
         const neighborCount = (topLeft ? 1 : 0) + (topRight ? 1 : 0) + (bottomLeft ? 1 : 0) + (bottomRight ? 1 : 0);
 
@@ -1179,11 +1445,65 @@
 
     const totalPins = pin1 + pin2 + pin3 + pin4;
 
+    // 높이에 따른 핀 전체 수량 옆 추가 표기 (니주 / 자키 및 니주 수량 확인)
+    let extraNote = '';
+    if (selectedHeightVal === 200) {
+      extraNote = ' (100니주)';
+    } else if (selectedHeightVal === 300) {
+      extraNote = ' (200니주)';
+    } else if (selectedHeightVal === 400) {
+      extraNote = ' (300니주)';
+    } else if (selectedHeightVal === 500) {
+      extraNote = ' (400니주)';
+    } else if ([1100, 1300, 1400, 1600, 1700, 1900, 2000].includes(selectedHeightVal)) {
+      extraNote = ' (자키 및 니주 수량 확인)';
+    }
+
     document.getElementById('totalPinText').innerText = `${totalPins} 개`;
+    document.getElementById('pinExtraNote').innerText = extraNote;
     document.getElementById('pin1Text').innerText = pin1;
     document.getElementById('pin2Text').innerText = pin2;
     document.getElementById('pin3Text').innerText = pin3;
     document.getElementById('pin4Text').innerText = pin4;
+  }
+
+  function findConnectedStairRegions(stairUnits) {
+    let visited = Array.from({ length: COLS }, () => Array(ROWS).fill(false));
+    let stairRegions = [];
+
+    stairUnits.forEach(u => {
+      if (!visited[u.c][u.r]) {
+        let minC = u.c, maxC = u.c, minR = u.r, maxR = u.r;
+        let queue = [u];
+        visited[u.c][u.r] = true;
+
+        while (queue.length > 0) {
+          let curr = queue.shift();
+          if (curr.c < minC) minC = curr.c;
+          if (curr.c > maxC) maxC = curr.c;
+          if (curr.r < minR) minR = curr.r;
+          if (curr.r > maxR) maxR = curr.r;
+
+          const neighbors = [
+            { c: curr.c + 1, r: curr.r },
+            { c: curr.c - 1, r: curr.r },
+            { c: curr.c, r: curr.r + 1 },
+            { c: curr.c, r: curr.r - 1 }
+          ];
+
+          neighbors.forEach(n => {
+            if (n.c >= 0 && n.c < COLS && n.r >= 0 && n.r < ROWS) {
+              if (grid[n.c][n.r] !== null && grid[n.c][n.r].dir === 'STAIR' && !visited[n.c][n.r]) {
+                visited[n.c][n.r] = true;
+                queue.push(n);
+              }
+            }
+          });
+        }
+        stairRegions.push({ minC, maxC, minR, maxR });
+      }
+    });
+    return stairRegions;
   }
 
   function traceAndDrawSegments(cellPx) {
@@ -1193,8 +1513,8 @@
     for (let r = 0; r <= ROWS; r++) {
       let currentSeg = null;
       for (let c = 0; c < COLS; c++) {
-        const topCell = (r > 0) ? (grid[c][r - 1] !== null) : false;
-        const bottomCell = (r < ROWS) ? (grid[c][r] !== null) : false;
+        const topCell = (r > 0) ? (grid[c][r - 1] !== null && grid[c][r - 1].dir !== 'STAIR') : false;
+        const bottomCell = (r < ROWS) ? (grid[c][r] !== null && grid[c][r].dir !== 'STAIR') : false;
         const isBoundary = topCell !== bottomCell;
 
         if (isBoundary) {
@@ -1221,8 +1541,8 @@
     for (let c = 0; c <= COLS; c++) {
       let currentSeg = null;
       for (let r = 0; r < ROWS; r++) {
-        const leftCell = (c > 0) ? (grid[c - 1][r] !== null) : false;
-        const rightCell = (c < COLS) ? (grid[c][r] !== null) : false;
+        const leftCell = (c > 0) ? (grid[c - 1][r] !== null && grid[c - 1][r].dir !== 'STAIR') : false;
+        const rightCell = (c < COLS) ? (grid[c][r] !== null && grid[c][r].dir !== 'STAIR') : false;
         const isBoundary = leftCell !== rightCell;
 
         if (isBoundary) {
