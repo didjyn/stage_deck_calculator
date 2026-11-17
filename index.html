@@ -4,9 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>무대 상판 및 부자재 산출 계산기</title>
+  <!-- Google Fonts: Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
-    body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; display: flex; flex-direction: column; gap: 15px; padding: 15px; background: #f4f4f9; margin: 0; min-height: 100vh; }
+    body { 
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 15px; 
+      padding: 15px; 
+      background: #f4f4f9; 
+      margin: 0; 
+      min-height: 100vh; 
+    }
+    button, input { font-family: inherit; }
     
     /* 데스크탑 레이아웃 */
     @media (min-width: 900px) {
@@ -294,7 +308,30 @@
     .result { margin-top: 15px; padding-top: 15px; border-top: 2px dashed #eee; }
     .result p { margin: 6px 0; font-size: 13px; }
     .sub-result { background: #eef5ff; padding: 10px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #cce5ff; }
-    .sub-result h4 { margin: 0 0 8px 0; color: #004085; font-size: 14px; }
+    
+    /* 부자재 산출 내역 헤더 및 복사 버튼 스타일 */
+    .sub-result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .sub-result-header h4 { margin: 0; color: #004085; font-size: 14px; }
+    .btn-copy-details {
+      background: #0056b3;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .btn-copy-details:hover { background: #004085; }
+    .btn-copy-details:active { transform: scale(0.96); }
+    .btn-copy-details.copied { background: #28a745; }
+
     .warning-text { color: #d9534f; font-weight: bold; font-size: 13px; margin-top: 4px; }
     .pin-extra-note { color: #d9534f; font-weight: bold; font-size: 13px; margin-left: 4px; }
     .highlight { color: #d9534f; font-weight: bold; font-size: 15px; background: #fff5f5; border: 1px solid #f5c6cb; border-radius: 6px; padding: 10px; margin-bottom: 12px; }
@@ -333,7 +370,7 @@
     </div>
   </div>
 
-  <!-- 사용 방법 안내 상자 (작업 영역과 타일 배치 모드 사이로 이동) -->
+  <!-- 사용 방법 안내 상자 -->
   <div class="usage-guide">
     <b>📌 사용 방법</b>
     1. 주황색을 기본으로 배치 후<br>
@@ -416,7 +453,10 @@
     <div class="highlight">총 필요 상판 수량: <br><span id="boardCount" style="font-size:18px;">0 장</span></div>
 
     <div class="sub-result">
-      <h4>🔨 부자재 산출 내역</h4>
+      <div class="sub-result-header">
+        <h4>🔨 부자재 산출 내역</h4>
+        <button type="button" class="btn-copy-details" id="btnCopyDetails" onclick="copyMaterialDetails()">📋 내역 복사</button>
+      </div>
       <p>• <b>H프레임</b>: <b id="hFrameText">0 개</b></p>
       <p>• <b>X바</b>: <b id="xBarText">0 개</b></p>
       <div id="xBarWarning" class="warning-text"></div>
@@ -490,6 +530,72 @@
     red:    { fill: 'rgba(220, 53, 69, 0.85)',  stroke: '#84121d' },
     stair:  { fill: 'rgba(111, 66, 193, 0.85)', stroke: '#4b287a' }
   };
+
+  function copyMaterialDetails() {
+    const heightText = document.getElementById('heightDisplayText').innerText;
+    const boardText = document.getElementById('boardCount').innerText;
+    const hFrameText = document.getElementById('hFrameText').innerText;
+    const xBarText = document.getElementById('xBarText').innerText;
+    const xBarWarn = document.getElementById('xBarWarning').innerText;
+    const totalPin = document.getElementById('totalPinText').innerText;
+    const pinNote = document.getElementById('pinExtraNote').innerText;
+    const pin1 = document.getElementById('pin1Text').innerText;
+    const pin2 = document.getElementById('pin2Text').innerText;
+    const pin3 = document.getElementById('pin3Text').innerText;
+    const pin4 = document.getElementById('pin4Text').innerText;
+    const stairRaw = document.getElementById('stairDetail').innerText.trim();
+
+    const stairFormatted = stairRaw === '0 개'
+      ? '0 개'
+      : '\n' + stairRaw.split('\n').map(line => '  ' + line.trim()).join('\n');
+
+    const lines = [
+      `[무대 상판 및 부자재 산출 내역]`,
+      `• 무대 높이: ${heightText}`,
+      `• 총 필요 상판 수량: ${boardText}`,
+      ``,
+      `[부자재 산출 내역]`,
+      `• H프레임: ${hFrameText}`,
+      `• X바: ${xBarText}${xBarWarn ? ' (' + xBarWarn + ')' : ''}`,
+      `• 핀 (총합): ${totalPin}${pinNote}`,
+      `  - 1핀: ${pin1}개 | 2핀: ${pin2}개 | 3핀: ${pin3}개 | 4핀: ${pin4}개`,
+      `• 계단: ${stairFormatted}`
+    ];
+
+    const textToCopy = lines.join('\n');
+    const btn = document.getElementById('btnCopyDetails');
+
+    const showCopiedState = () => {
+      btn.innerText = '✅ 복사 완료';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerText = '📋 내역 복사';
+        btn.classList.remove('copied');
+      }, 1500);
+    };
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(textToCopy).then(showCopiedState).catch(() => fallbackCopy(textToCopy, showCopiedState));
+    } else {
+      fallbackCopy(textToCopy, showCopiedState);
+    }
+  }
+
+  function fallbackCopy(text, callback) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      callback();
+    } catch (err) {
+      alert('클립보드 복사에 실패했습니다.');
+    }
+    document.body.removeChild(textarea);
+  }
 
   function resizeCanvas() {
     const rect = container.getBoundingClientRect();
@@ -1142,7 +1248,7 @@
       const widthMm = colsCount * MODULE_MM;
       const heightMm = rowsCount * MODULE_MM;
       const fontSize = Math.max(12, Math.round(14 / scale));
-      ctx.font = `bold ${fontSize}px sans-serif`;
+      ctx.font = `bold ${fontSize}px 'Noto Sans KR', sans-serif`;
 
       const widthLabel = `${widthMm.toLocaleString()}mm`;
       const heightLabel = `${heightMm.toLocaleString()}mm`;
@@ -1335,10 +1441,10 @@
       document.getElementById('boardCount').innerText = `${fullBoardCount} 장`;
     }
 
-    calculateHardware(minC, maxC, minR, maxR, boards, stairUnits, colorCounts);
+    calculateHardware(minC, maxC, minR, maxR, boards, stairUnits, colorCounts, halfBoardCount);
   }
 
-  function calculateHardware(minC, maxC, minR, maxR, boards, stairUnits, colorCounts) {
+  function calculateHardware(minC, maxC, minR, maxR, boards, stairUnits, colorCounts, halfBoardCount) {
     const orange = colorCounts.orange || 0;
     const yellow = colorCounts.yellow || 0;
     const green = colorCounts.green || 0;
@@ -1386,7 +1492,7 @@
     document.getElementById('hFrameText').innerText = hFrameTextStr;
     document.getElementById('xBarText').innerText = xBarTextStr;
 
-    // 계단 부자재 산출: 단수 * 200 < 무대높이 이면서 무대높이 - (단수 * 200) <= 200
+    // 계단 부자재 산출
     if (stairUnits.length > 0) {
       let stairRegions = findConnectedStairRegions(stairUnits);
       let tiers = Math.max(0, Math.ceil(selectedHeightVal / 200) - 1);
@@ -1408,8 +1514,9 @@
       document.getElementById('stairDetail').innerHTML = '0 개';
     }
 
+    // 910*910 반절 타일이 생성되었을 때 경고 문구 표시
     const warningEl = document.getElementById('xBarWarning');
-    if (red > 0 && selectedHeightVal >= 600) {
+    if (halfBoardCount > 0 && selectedHeightVal >= 600) {
       warningEl.innerText = '⚠️ 910 X바 확인';
     } else {
       warningEl.innerText = '';
@@ -1590,7 +1697,7 @@
     ctx.strokeStyle = '#28a745';
     ctx.fillStyle = '#28a745';
     ctx.lineWidth = 2 / scale;
-    ctx.font = `bold ${Math.max(11, Math.round(13 / scale))}px sans-serif`;
+    ctx.font = `bold ${Math.max(11, Math.round(13 / scale))}px 'Noto Sans KR', sans-serif`;
 
     segments.forEach(seg => {
       if (seg.type === 'H') {
