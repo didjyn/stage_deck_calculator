@@ -241,7 +241,7 @@
       color: #000;
     }
 
-    /* 자동 변경 버튼 (지우기 버튼 옆 배치, #00D8FF) */
+    /* 자동 변경 버튼 (#00D8FF) */
     .btn-auto-tile {
       background: #00D8FF;
       color: #002b36;
@@ -280,7 +280,7 @@
       border-radius: 6px;
       font-size: 11px;
       color: #5d4037;
-      margin-top: 12px;
+      margin-bottom: 15px;
       line-height: 1.5;
     }
     .usage-guide b { display: block; margin-bottom: 4px; color: #f57f17; }
@@ -333,6 +333,17 @@
     </div>
   </div>
 
+  <!-- 사용 방법 안내 상자 (작업 영역과 타일 배치 모드 사이로 이동) -->
+  <div class="usage-guide">
+    <b>📌 사용 방법</b>
+    1. 주황색을 기본으로 배치 후<br>
+    2. 가로, 세로 홀수 번째 칸을 파란색으로 배치<br>
+    3. 가로의 마지막이 짝수인 경우 주황색의 옆은 노란색<br>
+    4. 세로의 마지막이 짝수인 경우 주황색의 아래는 연두색<br>
+    5. 가로와 세로가 모두 짝수인 경우 마지막 칸은 빨간색<br>
+    <span class="note">※ 자동변경은 직사각형일 때 정상적용. 기타형태는 수동변경할 것!</span>
+  </div>
+
   <div class="field">
     <label>타일 배치 모드</label>
     <div class="orient-btn-grid" id="orientGrid">
@@ -377,16 +388,6 @@
         <span>자동 변경</span>
       </button>
     </div>
-  </div>
-
-  <div class="usage-guide">
-    <b>📌 사용 방법</b>
-    1. 주황색을 기본으로 배치 후<br>
-    2. 가로, 세로 홀수 번째 칸을 파란색으로 배치<br>
-    3. 가로의 마지막이 짝수인 경우 주황색의 옆은 노란색<br>
-    4. 세로의 마지막이 짝수인 경우 주황색의 아래는 연두색<br>
-    5. 가로와 세로가 모두 짝수인 경우 마지막 칸은 빨간색<br>
-    <span class="note">※ 계단(S)은 자동변경 적용 제외됨!</span>
   </div>
 
   <div class="action-btn-group">
@@ -499,7 +500,6 @@
   }
   window.addEventListener('resize', resizeCanvas);
 
-  // 게이지 슬라이더 값(1 ~ 20) 변경 핸들러
   function onHeightGaugeChange(stepVal) {
     const numStep = Number(stepVal);
     selectedHeightVal = numStep * 100;
@@ -1467,7 +1467,6 @@
 
     const totalPins = pin1 + pin2 + pin3 + pin4;
 
-    // 높이에 따른 핀 전체 수량 옆 추가 표기 (니주 / 자키 및 니주 수량 확인)
     let extraNote = '';
     if (selectedHeightVal === 200) {
       extraNote = ' (100니주)';
