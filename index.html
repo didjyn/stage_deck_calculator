@@ -220,7 +220,7 @@
       text-align: center;
       box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
-    .key-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .key-btn:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
     .key-btn.active {
       border-color: #000;
       box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000;
@@ -241,6 +241,27 @@
       color: #000;
     }
 
+    /* 자동 변경 버튼 (지우기 버튼 옆 배치, #00D8FF) */
+    .btn-auto-tile {
+      background: #00D8FF;
+      color: #002b36;
+    }
+    .btn-auto-tile .key-badge {
+      background: rgba(0, 0, 0, 0.18);
+      color: #002b36;
+    }
+    .btn-auto-tile:disabled {
+      background: #d8dee4;
+      color: #7a828a;
+      cursor: not-allowed;
+      opacity: 0.75;
+      box-shadow: none;
+    }
+    .btn-auto-tile:disabled .key-badge {
+      background: rgba(0, 0, 0, 0.1);
+      color: #7a828a;
+    }
+
     .action-btn-group {
       display: flex;
       gap: 6px;
@@ -248,10 +269,6 @@
     }
     .btn-clear { background: #dc3545; color: white; border: none; cursor: pointer; font-weight: bold; flex: 1; padding: 9px 4px; border-radius: 4px; font-size: 12px; }
     .btn-clear:hover { background: #c82333; }
-    
-    .btn-auto { background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; flex: 1; padding: 9px 4px; border-radius: 4px; font-size: 12px; transition: all 0.2s; }
-    .btn-auto:hover:not(:disabled) { background: #0056b3; }
-    .btn-auto:disabled { background: #cccccc; color: #666666; cursor: not-allowed; opacity: 0.7; }
 
     .btn-undo { background: #6c757d; color: white; border: none; cursor: pointer; font-weight: bold; flex: 1; padding: 9px 4px; border-radius: 4px; font-size: 12px; }
     .btn-undo:hover { background: #5a6268; }
@@ -276,7 +293,7 @@
 
     .result { margin-top: 15px; padding-top: 15px; border-top: 2px dashed #eee; }
     .result p { margin: 6px 0; font-size: 13px; }
-    .sub-result { background: #eef5ff; padding: 10px; border-radius: 6px; margin-top: 12px; border: 1px solid #cce5ff; }
+    .sub-result { background: #eef5ff; padding: 10px; border-radius: 6px; margin-bottom: 12px; border: 1px solid #cce5ff; }
     .sub-result h4 { margin: 0 0 8px 0; color: #004085; font-size: 14px; }
     .warning-text { color: #d9534f; font-weight: bold; font-size: 13px; margin-top: 4px; }
     .pin-extra-note { color: #d9534f; font-weight: bold; font-size: 13px; margin-left: 4px; }
@@ -355,6 +372,10 @@
         <span class="key-badge">E</span>
         <span>지우기</span>
       </div>
+      <button type="button" class="key-btn btn-auto-tile" id="btnAutoChange" onclick="applyAutoPattern()" disabled title="배치 영역 존재 시 활성화">
+        <span class="key-badge">T</span>
+        <span>자동 변경</span>
+      </button>
     </div>
   </div>
 
@@ -369,7 +390,6 @@
   </div>
 
   <div class="action-btn-group">
-    <button class="btn-auto" id="btnAutoChange" onclick="applyAutoPattern()" disabled title="배치 영역 존재 시 활성화">자동 변경 (T)</button>
     <button class="btn-undo" onclick="undo()">실행 취소 (Ctrl+Z)</button>
     <button class="btn-clear" onclick="clearAll()">전체 해제 (Ctrl+E)</button>
   </div>
@@ -394,12 +414,6 @@
 
     <div class="highlight">총 필요 상판 수량: <br><span id="boardCount" style="font-size:18px;">0 장</span></div>
 
-    <p>전체 바운딩 범위: <b id="boundsText">0 x 0 mm</b></p>
-    <p>외곽선 총 둘레: <b id="perimeterText">0 mm</b></p>
-    <p>총 선택 면적: <b id="areaText">0</b> m²</p>
-    <p>온장 수량: <b id="fullBoardCount">0</b> 장</p>
-    <p>반절 수량: <b id="halfBoardCount">0</b> 개</p>
-    
     <div class="sub-result">
       <h4>🔨 부자재 산출 내역</h4>
       <p>• <b>H프레임</b>: <b id="hFrameText">0 개</b></p>
@@ -415,6 +429,12 @@
       <p>• <b>계단</b>:</p>
       <div id="stairDetail" class="pin-detail">0 개</div>
     </div>
+
+    <p>전체 바운딩 범위: <b id="boundsText">0 x 0 mm</b></p>
+    <p>외곽선 총 둘레: <b id="perimeterText">0 mm</b></p>
+    <p>총 선택 면적: <b id="areaText">0</b> m²</p>
+    <p>온장 수량: <b id="fullBoardCount">0</b> 장</p>
+    <p>반절 수량: <b id="halfBoardCount">0</b> 개</p>
   </div>
 
   <div class="instructions">
@@ -505,7 +525,9 @@
   function setColor(color) {
     currentColor = color;
     document.querySelectorAll('#colorGrid .key-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.color === color);
+      if (btn.dataset.color) {
+        btn.classList.toggle('active', btn.dataset.color === color);
+      }
     });
   }
 
@@ -1379,7 +1401,7 @@
 
       let lines = [];
       for (let spec in specCounts) {
-        lines.push(`• ${spec} ×${specCounts[spec]}`);
+        lines.push(`- ${spec} ×${specCounts[spec]}`);
       }
       document.getElementById('stairDetail').innerHTML = lines.join('<br>');
     } else {
@@ -1455,7 +1477,7 @@
       extraNote = ' (300니주)';
     } else if (selectedHeightVal === 500) {
       extraNote = ' (400니주)';
-    } else if ([1100, 1300, 1400, 1600, 1700, 1900, 2000].includes(selectedHeightVal)) {
+    } else if ([700, 1100, 1300, 1400, 1600, 1700, 1900, 2000].includes(selectedHeightVal)) {
       extraNote = ' (자키 및 니주 수량 확인)';
     }
 
